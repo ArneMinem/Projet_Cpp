@@ -10,7 +10,8 @@
 	{
 		"commands" : 
 		[
-			"add_executable"
+			"add_executable",
+			"target_link_libraries"
 		],
 		"files" : 
 		[
@@ -25,6 +26,12 @@
 				"command" : 0,
 				"file" : 0,
 				"line" : 10,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 14,
 				"parent" : 0
 			}
 		]
@@ -59,6 +66,11 @@
 			{
 				"fragment" : "-rdynamic",
 				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-lproj",
+				"role" : "libraries"
 			}
 		],
 		"language" : "CXX"
