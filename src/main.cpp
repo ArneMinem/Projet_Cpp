@@ -6,14 +6,12 @@
 #include <map>
 #include <utility>
 #include <proj.h>
-#include <delaunator.hcc>
 
+#include "delaunator.hpp"
 #include "Point.h"
 
 using namespace std;
 using dico_points = map<pair<double, double>, double>;
-
-
 
 int main()
 {
@@ -52,7 +50,14 @@ int main()
         cout << "Problem while opening file !" << endl;
     }
 
-    delaunator::Delaunator d(projected_coord);
+    vector<double> keysVector;
+    keysVector.reserve(points.size() * 2); // Reserve space for efficiency
+
+    for (const auto& pair : points) {
+        keysVector.push_back(pair.first.first);  // Push the first key
+        keysVector.push_back(pair.first.second); // Push the second key
+    }
+    delaunator::Delaunator d(keysVector);
 
     for(std::size_t i = 0; i < d.triangles.size(); i+=3) {
         printf(
@@ -64,6 +69,7 @@ int main()
             d.coords[2 * d.triangles[i + 2]],    //tx2
             d.coords[2 * d.triangles[i + 2] + 1] //ty2
             );
+    }
 
     return 0;
 }
