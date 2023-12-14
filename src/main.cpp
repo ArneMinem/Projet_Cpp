@@ -6,8 +6,8 @@
 #include <map>
 #include <utility>
 #include <proj.h>
+#include <delaunator.hcc>
 
-#include "delaunator.hpp"
 #include "Point.h"
 
 using namespace std;
@@ -19,25 +19,6 @@ int main()
 {
     ifstream infile("../src/extract.txt");
     dico_points points;
-    if (infile.is_open()){
-        double x, y, z;
-        while (infile >> x >> y >> z) {
-            infile.get();
-            points[{x, y}] = z;
-        }
-
-        // Accessing elements in the map
-        // Point p1 = myMap[{1.0, 2.0}];
-        // Point p2 = myMap[{5.0, 6.0}];
-
-        // Printing elements in the map
-        for (auto const& [c, p]: points) {
-            cout << "{" << c.first << ", " << c.second << ", " << p << ")" << endl;
-        }
-    }
-    else {
-        cout << "Problem while opening file !" << endl;
-    }
 
     // Initialize the projection transformation
     PJ* P = proj_create_crs_to_crs(
@@ -46,25 +27,43 @@ int main()
         "+proj=lcc +lat_1=49 +lat_2=44 +lat_0=46.5 +lon_0=3 +x_0=700000 +y_0=6600000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs",  // Target CRS definition (e.g., Lambert Conformal Conic projection)
         nullptr);
 
-    // Iterate through the points map and transform each geographic coordinate to projected coordinate
-    for (const auto& [coord, value] : points) {
-        double lon = coord.second;
-        double lat = coord.first;
-        double alt = value;
+    if (infile.is_open()){
+        double x, y, z;
+        while (infile >> x >> y >> z) {
+            infile.get();
+            PJ_COORD geo_coord, projected_coord;
+            geo_coord.lpzt.lam = y;  // Longitude
+            geo_coord.lpzt.phi = x;  // Latitude
+            geo_coord.lpzt.z = z;    // Altitude (if applicable)
+            projected_coord = proj_trans(P, PJ_FWD, geo_coord);  // Forward projection from geographic to projected coordinates
 
-        PJ_COORD geo_coord, projected_coord;
-        geo_coord.lpzt.lam = lon;  // Longitude
-        geo_coord.lpzt.phi = lat;  // Latitude
-        geo_coord.lpzt.z = alt;    // Altitude (if applicable)
+            points[{projected_coord.xyz.x, projected_coord.xyz.y}] = projected_coord.xyz.z;
+        }
 
-        projected_coord = proj_trans(P, PJ_FWD, geo_coord);  // Forward projection from geographic to projected coordinates
+        // Free the projection object after use
+        proj_destroy(P);
 
-        // Use the projected_coord.xy.x and projected_coord.xy.y for further processing
-        cout << "(" << projected_coord.xyz.x << ", " << projected_coord.xyz.y << ", " << projected_coord.xyz.z << ")" << endl;
+        // Printing elements in the map
+        for (auto const& [c, p]: points) {
+            cout << "(" << c.first << ", " << c.second << ", " << p << ")" << endl;
+        }
+    }
+    else {
+        cout << "Problem while opening file !" << endl;
     }
 
-    // Free the projection object after use
-    proj_destroy(P);
+    delaunator::Delaunator d(projected_coord);
+
+    for(std::size_t i = 0; i < d.triangles.size(); i+=3) {
+        printf(
+            "Triangle points: [[%f, %f], [%f, %f], [%f, %f]]\n",
+            d.coords[2 * d.triangles[i]],        //tx0
+            d.coords[2 * d.triangles[i] + 1],    //ty0
+            d.coords[2 * d.triangles[i + 1]],    //tx1
+            d.coords[2 * d.triangles[i + 1] + 1],//ty1
+            d.coords[2 * d.triangles[i + 2]],    //tx2
+            d.coords[2 * d.triangles[i + 2] + 1] //ty2
+            );
 
     return 0;
 }
