@@ -1,1 +1,0 @@
-/usr/bin/c++ -Wall -Wextra -std=c++17 -g -rdynamic CMakeFiles/main_exe.dir/src/Maille.cpp.o CMakeFiles/main_exe.dir/src/Point.cpp.o CMakeFiles/main_exe.dir/src/main.cpp.o -o main_exe  -lproj 
