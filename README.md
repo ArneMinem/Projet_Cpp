@@ -1,6 +1,6 @@
-## Projet_Cpp
+# Projet_Cpp
 
-# Exécuter le code :
+## Exécuter le code :
 Copiez puis décompressez le zipfile à l'endroit voulu
 Allez dans votre terminal puis :
 1. Entrez "cd Nom_du_dossier"
@@ -13,7 +13,7 @@ Attention : dans le main nous avons à la ligne 33 :
 J'ai du remplacer par "/home/arne/Projet_Cpp/" + fileName puisqu'autrement j'avais "segmentation error" pour une raison que j'ignore.
 Donc si cela vous arrive changez le par le chemin d'accès vers l'endroit où vous avez mis les données .
 
-# La documentation :
+## La documentation :
 
 Dans votre terminal rentrez "doxygen Doxyfile"
 Cela créera les dossiers html et latex dans le dossier doc
@@ -24,3 +24,11 @@ Pour l'avoir au format pdf il faut encore éxecuter :
 1. "cd doc/latex/"
 2. "pdflatex refman.tex"
 Ainsi vous pouvez trouver refman.pdf sous doc/latex/
+
+## La vidéo :
+
+Voici un lien de WeTransfer pour que vous puissiez télécharger la vidéo.
+
+https://we.tl/t-6qbpDXN9Ev
+
+PS : Le lien reste utilisable jusqu'au 21 Janvier 2024. Dites moi s'il vous faut un nouvel lien.
