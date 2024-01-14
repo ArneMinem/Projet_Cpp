@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.6) # compatibilités de CMake
-project(main_exe) # nom du projet : "main_exe"
+project(create_raster) # nom du projet : "create_raster"
 set(CMAKE_BUILD_TYPE Debug) # compilation en mode debug
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -std=c++17") # options
 file( # liste des fichiers à compiler

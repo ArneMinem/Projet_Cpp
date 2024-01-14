@@ -1,25 +1,32 @@
-#include "Point.h" // Pour l'associer au fichier.h
-#include <iostream> // Pour définir les flots de données en entrée et en sortie
-#include <string> // Pour utiliser le type string
-#include <fstream>
+#include "Point.h"
 
-using namespace std;
 
-Point::Point(void) : lat(0.0), lon(0.0), alt(0.0) {
-    // Constructor for latitude, longitude and altitude
-}
+Point::Point(double x, double y) : x(x), y(y) {}
 
-Point::Point(double lat, double lon, double alt) : lat(lat), lon(lon), alt(alt) {
-    // Constructor for latitude, longitude and altitude
-}
 
-Point::~Point(){
-    // Destructeur
-}
-
-istream& operator>>(istream& stream, Point& p)
+Point::~Point()
 {
-  char dump;
-  stream >> dump >> p.lat >> dump >> p.lon >> dump >> p.alt >> dump ;
-  return stream; 
+
+}
+
+
+float Point::isLeft(const Point& p1, const Point& p2)
+{
+    return ((p2.x - p1.x)*(y - p1.y) - (x - p1.x)*(p2.y - p1.y));
+}
+
+
+bool Point::isInTriangle(const Point& p1, const Point& p2, const Point& p3)
+{
+    float d1, d2, d3;
+    bool left, right;
+
+    d1 = isLeft(p1, p2);
+    d2 = isLeft(p2, p3);
+    d3 = isLeft(p3, p1);
+
+    left = (d1 < 0) && (d2 < 0) && (d3 < 0);
+    right = (d1 > 0) && (d2 > 0) && (d3 > 0);
+
+    return (left || right);
 }
