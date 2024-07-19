@@ -27,8 +27,4 @@ Ainsi vous pouvez trouver refman.pdf sous doc/latex/
 
 ## La vidéo :
 
-Voici un lien de WeTransfer pour que vous puissiez télécharger la vidéo.
-
-https://we.tl/t-6qbpDXN9Ev
-
-PS : Le lien reste utilisable jusqu'au 21 Janvier 2024. Dites moi s'il vous faut un nouvel lien.
+Voici un lien Youtube pour une vidéo de présentation du projet : https://youtu.be/AH8jv9s0MrI
